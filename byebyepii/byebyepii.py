@@ -40,3 +40,34 @@ def byeByePii(pii_dict: dict, keys_to_hash: list, subkeys_to_hash: list) -> dict
                 else:
                     pii_dict[key] = hashString(json.dumps(pii_dict[key]))
     return pii_dict
+
+
+def analyzeDict(pii_dict: dict):
+    """
+    Analyze the given dictionary and return a list of keys that you'd like to be hashed.
+
+    Args:
+        pii_dict: The dictionary to analyze.
+
+    Returns:
+        key_list: A list of keys that you'd like to be hashed.
+        subkey_list: A list of subkeys that you'd like to be hashed.
+    """
+    key_list = []
+    subkey_list = []
+
+    if pii_dict:
+        for key in pii_dict:
+            for subkey in pii_dict[key]:
+                if subkey:
+                    add_subkey = input(f"Add {key} - {subkey} to hash list? (y/n) ")
+                    if add_subkey == "y":
+                        key_list.append(key)
+                        subkey_list.append(subkey)
+                else:
+                    add_key = input(f"Add {key} to hash list? (y/n) ")
+                    if add_key == "y":
+                        key_list.append(key)
+
+    print(f"\nKeys to hash: {key_list}\nSubkeys to hash: {subkey_list}")
+    return key_list, subkey_list
