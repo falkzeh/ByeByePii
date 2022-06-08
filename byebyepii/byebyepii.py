@@ -1,5 +1,5 @@
-import json
 import hashlib
+import json
 
 
 def hashString(s: str) -> str:
@@ -35,7 +35,7 @@ def byeByePii(pii_dict: dict, keys_to_hash: list, subkeys_to_hash: list) -> dict
                     for subkey in subkeys_to_hash:
                         if subkey in pii_dict[key]:
                             pii_dict[key][subkey] = hashString(
-                                json.dumps(pii_dict[key][subkey])
+                                json.dumps(pii_dict[key][subkey]),
                             )
                 else:
                     pii_dict[key] = hashString(json.dumps(pii_dict[key]))
