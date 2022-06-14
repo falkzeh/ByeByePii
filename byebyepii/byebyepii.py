@@ -71,16 +71,17 @@ def analyzeDict(pii_dict: dict):
 
     if pii_dict:
         for key in pii_dict:
-            for subkey in pii_dict[key]:
-                if subkey:
-                    add_subkey = input(f"Add {key} - {subkey} to hash list? (y/n) ")
-                    if add_subkey == "y":
-                        key_list.append(key)
-                        subkey_list.append(subkey)
-                else:
-                    add_key = input(f"Add {key} to hash list? (y/n) ")
-                    if add_key == "y":
-                        key_list.append(key)
+            if isinstance(pii_dict[key], dict):
+                for subkey in pii_dict[key]:
+                    if subkey:
+                        add_subkey = input(f"Add {key} - {subkey} to hash list? (y/n) ")
+                        if add_subkey == "y":
+                            key_list.append(key)
+                            subkey_list.append(subkey)
+            else:
+                add_key = input(f"Add {key} to hash list? (y/n) ")
+                if add_key == "y":
+                    key_list.append(key)
 
     print(f"\nKeys to hash: {key_list}\nSubkeys to hash: {subkey_list}")
     return key_list, subkey_list
