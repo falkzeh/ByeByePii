@@ -1,1 +1,1 @@
-from .byebyepii import byeByePii
+from .byebyepii import analyzeDict, hashPii
