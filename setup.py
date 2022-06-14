@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setuptools.setup(
     name="ByeByePii",
-    version="0.0.3",
+    version="1.0.0",
     author="Falk Z.",
     description="A package for hashing personal identifiable information (PII).",
     long_description=long_description,
