@@ -17,13 +17,17 @@ def hashString(s: str) -> str:
     return None
 
 
-def byeByePii(pii_dict: dict, keys_to_hash: list, subkeys_to_hash: list) -> dict:
+def hashPii(
+    pii_dict: dict, keys_to_hash: list, subkeys_to_hash: list, verify: bool = True
+) -> dict:
     """
     Hash the PII in the given dictionary.
 
     Args:
         pii_dict: The dictionary to hash.
         keys_to_hash: The keys to hash.
+        subkeys_to_hash: The subkeys to hash.
+        verify: Whether to verify the hash.
 
     Returns:
         A dictionary with the hashed PII.
@@ -39,6 +43,15 @@ def byeByePii(pii_dict: dict, keys_to_hash: list, subkeys_to_hash: list) -> dict
                             )
                 else:
                     pii_dict[key] = hashString(json.dumps(pii_dict[key]))
+    if verify:
+        for key in keys_to_hash:
+            if key in pii_dict:
+                if isinstance(pii_dict[key], dict):
+                    for subkey in subkeys_to_hash:
+                        if subkey in pii_dict[key]:
+                            assert len(pii_dict[key][subkey]) == 64
+                else:
+                    assert len(pii_dict[key]) == 64
     return pii_dict
 
 
