@@ -41,6 +41,13 @@ def hashPii(
                             pii_dict[key][subkey] = hashString(
                                 json.dumps(pii_dict[key][subkey]),
                             )
+                elif isinstance(pii_dict[key], list):
+                    for item in pii_dict[key]:
+                        for subkey in subkeys_to_hash:
+                            if subkey in item:
+                                item[subkey] = hashString(
+                                    json.dumps(item[subkey]),
+                                )
                 else:
                     pii_dict[key] = hashString(json.dumps(pii_dict[key]))
     if verify:
@@ -50,6 +57,11 @@ def hashPii(
                     for subkey in subkeys_to_hash:
                         if subkey in pii_dict[key]:
                             assert len(pii_dict[key][subkey]) == 64
+                elif isinstance(pii_dict[key], list):
+                    for item in pii_dict[key]:
+                        for subkey in subkeys_to_hash:
+                            if subkey in item:
+                                assert len(item[subkey]) == 64
                 else:
                     assert len(pii_dict[key]) == 64
     return pii_dict
